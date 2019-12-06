@@ -6,13 +6,14 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 15:26:21 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/12/05 16:48:24 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/12/06 14:45:00 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 int getTreeMinSize(struct s_node *root) {
 
@@ -57,6 +58,39 @@ int getTreeElement(struct s_node *root) {
 	return sum;
 }
 
+int getTreeHeight(struct s_node *root) {
+
+	if (!root)
+		return 0;
+	else 
+	{
+		int heightRight = getTreeHeight(root->right) + 1;
+		int heightLeft = getTreeHeight(root->left) + 1;
+		return max(heightRight, heightLeft);
+	}
+}
+
+int isBSTree(struct s_node *root) {
+
+	if (!root)
+		return 1;
+	if (root->right && root->right->value < root->value) 
+		return 0;
+	if (root->left && root->left->value >= root->value)
+		return 0;
+	return (isBSTree(root->left) && isBSTree(root->right));
+}
+
+int isBalance(struct s_node *root) {
+
+	if (!root)
+		return 1;
+	if ((abs(getTreeHeight(root->left) - getTreeHeight(root->right)) <= 1) \
+			&& isBalance(root->left) && isBalance(root->right))
+		return 1;
+	return 0;
+}
+
 struct s_info getInfo(struct s_node *root) {
 
 	struct s_info info;
@@ -64,5 +98,8 @@ struct s_info getInfo(struct s_node *root) {
 	info.min = getTreeMinSize(root);
 	info.max = getTreeMaxSize(root);
 	info.elements = getTreeElement(root);
+	info.height = getTreeHeight(root) - 1;
+	info.isBalanced = isBalance(root);
+	info.isBST = isBSTree(root);
 	return info;
 }
