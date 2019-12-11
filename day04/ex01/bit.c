@@ -6,13 +6,14 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 10:32:33 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/12/09 10:46:08 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/12/10 16:57:44 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 int toInt(char *bits) {
 
@@ -40,11 +41,11 @@ char *getAnd(char *a, char *b) {
 		return NULL;
 	new[4] = '\0';
 	while (a[aIndex] && b[bIndex]) {
-
-		if (a[aIndex] == b[bIndex])
+		if (a[aIndex] == b[bIndex]) {
 			new[newIndex] = a[aIndex];
+		}
 		else
-			new[newIndex] = 0;
+			new[newIndex] = '0';
 		aIndex++;
 		bIndex++;
 		newIndex++;
