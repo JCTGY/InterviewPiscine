@@ -6,37 +6,37 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 20:32:51 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/12/10 21:33:45 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/12/11 10:51:03 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-int combinationNum(int pizzaSize) {
+void slicePizza(struct s_array *arr, int size) {
 
-	int combine = 1;
-	for (int i = 1; i <= pizzaSize; i++) {
-		combine *= i;
+	for (int i = size; i > 0; i--) {
+		struct s_array *tmp = arrayClone(arr);
+		arrayAppend(tmp, i);
+		if (tmp->sum <= size) {
+			if (tmp->sum == size)
+				arrayPrint(tmp);
+			else 
+				slicePizza(tmp, size);
+		}
+		tmp->content = NULL;
+		free(tmp);
 	}
-	return combine;
-}
-
-void rerangeNum(struct s_array *arr, struct s_array *copy) {
-
-
 }
 
 void printPossibleSlices(int pizzaSize) {
 
-	int combine = combinationNum(pizzaSize);
-	printf("combine = %d\n", combine);
 	struct s_array *arr = arrayInit();
-	arrayAppend(arr, 15);
-	arrayAppend(arr, 10);
-	arrayPrint(arr); //print ’[15, 10]\n’
-	struct s_array *copy = arrayClone(arr);
-	printf("length: %d, sum: %d\n", arr->length, arr->sum); //print ’length: 2, sum: 25\n’
-	printf("campacitty: %d", arr->capacity); //print ’length: 2, sum: 25\n’
-	
+	slicePizza(arr, pizzaSize);
+	arr->content = NULL;
+	free(arr);
+
+	while (1) {}
 }
